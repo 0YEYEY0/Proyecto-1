@@ -1,12 +1,12 @@
 package com.example.proyecto1;
 
-public class Casilla {
+public class Matriz {
     private int posFila;
     private int posColumna;
     private boolean mina;
 
 
-    public Casilla(int posFila, int posColumna) {
+    public Matriz(int posFila, int posColumna) {
         this.posFila = posFila;
         this.posColumna = posColumna;
     }
