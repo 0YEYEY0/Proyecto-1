@@ -4,6 +4,7 @@ public class Matriz {
     private int posFila;
     private int posColumna;
     private boolean mina;
+    int numMinasa;
 
 
     public Matriz(int posFila, int posColumna) {
@@ -34,6 +35,20 @@ public class Matriz {
     public void setMina(boolean mina) {
         this.mina = mina;
     }
+
+    public int getNumMinasa() {
+        return numMinasa;
+    }
+
+    public void setNumMinasa(int numMinasa) {
+        this.numMinasa = numMinasa;
+    }
+
+
+    public void incNumMinasAround(){
+        this.numMinasa++;
+    }
+
 
 
 
