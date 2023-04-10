@@ -6,6 +6,7 @@ module com.example.proyecto1 {
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens com.example.proyecto1 to javafx.fxml;
     exports com.example.proyecto1;

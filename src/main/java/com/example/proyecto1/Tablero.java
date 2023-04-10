@@ -102,14 +102,14 @@ public class Tablero {
             int tmpPosFila=posFila;
             int tmpPosColumna=posColumna;
             switch(i){
-                case 0: tmpPosFila--;break; //Arriba
-                case 1: tmpPosFila--;tmpPosColumna++;break; //Arriba Derecha
-                case 2: tmpPosColumna++;break; //Derecha
-                case 3: tmpPosColumna++;tmpPosFila++;break; //Derecha Abajo
-                case 4: tmpPosFila++;break; //Abajo
-                case 5: tmpPosFila++;tmpPosColumna--;break; //Abajo Izquierda
-                case 6: tmpPosColumna--;break; //Izquierda
-                case 7: tmpPosFila--; tmpPosColumna--;break; //Izquierda Arriba
+                case 0: tmpPosFila--;break;
+                case 1: tmpPosFila--;tmpPosColumna++;break;
+                case 2: tmpPosColumna++;break;
+                case 3: tmpPosColumna++;tmpPosFila++;break;
+                case 4: tmpPosFila++;break;
+                case 5: tmpPosFila++;tmpPosColumna--;break;
+                case 6: tmpPosColumna--;break;
+                case 7: tmpPosFila--; tmpPosColumna--;break;
             }
 
             if (tmpPosFila>=0 && tmpPosFila<this.matriz.length
