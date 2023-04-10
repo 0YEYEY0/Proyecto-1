@@ -3,6 +3,7 @@ package com.example.proyecto1;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *
@@ -14,6 +15,8 @@ public class Tablero {
     int numFilas;
     int numColumnas;
     int numMinas;
+
+    Consumer<List<Matriz>> eventoPartidaPerdida;
 
 
     public Tablero(int numFilas, int numColumnas, int numMinas) {
@@ -79,12 +82,12 @@ public class Tablero {
     /**
      * Metodo para actualizar las minas que se encuentran alrededor de ciertas casillas
      */
-    private void actNumMinasAround(){
+    private void actNumMinasAround() {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
-                if (matriz[i][j].isMina()){
-                    List<Matriz> casillasAlrededor=obtCasillasAlr(i, j);
-                    casillasAlrededor.forEach((c)->c.incNumMinasAround());
+                if (matriz[i][j].isMina()) {
+                    List<Matriz> casillasAlrededor = obtCasillasAlr(i, j);
+                    casillasAlrededor.forEach((c) -> c.incNumMinasAround());
                 }
             }
         }
@@ -92,34 +95,72 @@ public class Tablero {
 
     /**
      * metodo que da las casillas que estan alrededor
+     *
      * @param posFila
      * @param posColumna
      * @return minas alrededor
      */
-    private List<Matriz> obtCasillasAlr(int posFila, int posColumna){
-        List<Matriz> listaCasillas=new LinkedList<>();
+    private List<Matriz> obtCasillasAlr(int posFila, int posColumna) {
+        List<Matriz> listaCasillas = new LinkedList<>();
         for (int i = 0; i < 8; i++) {
-            int tmpPosFila=posFila;
-            int tmpPosColumna=posColumna;
-            switch(i){
-                case 0: tmpPosFila--;break;
-                case 1: tmpPosFila--;tmpPosColumna++;break;
-                case 2: tmpPosColumna++;break;
-                case 3: tmpPosColumna++;tmpPosFila++;break;
-                case 4: tmpPosFila++;break;
-                case 5: tmpPosFila++;tmpPosColumna--;break;
-                case 6: tmpPosColumna--;break;
-                case 7: tmpPosFila--; tmpPosColumna--;break;
+            int tmpPosFila = posFila;
+            int tmpPosColumna = posColumna;
+            switch (i) {
+                case 0:
+                    tmpPosFila--;
+                    break;
+                case 1:
+                    tmpPosFila--;
+                    tmpPosColumna++;
+                    break;
+                case 2:
+                    tmpPosColumna++;
+                    break;
+                case 3:
+                    tmpPosColumna++;
+                    tmpPosFila++;
+                    break;
+                case 4:
+                    tmpPosFila++;
+                    break;
+                case 5:
+                    tmpPosFila++;
+                    tmpPosColumna--;
+                    break;
+                case 6:
+                    tmpPosColumna--;
+                    break;
+                case 7:
+                    tmpPosFila--;
+                    tmpPosColumna--;
+                    break;
             }
 
-            if (tmpPosFila>=0 && tmpPosFila<this.matriz.length
-                    && tmpPosColumna>=0 && tmpPosColumna<this.matriz[0].length){
+            if (tmpPosFila >= 0 && tmpPosFila < this.matriz.length
+                    && tmpPosColumna >= 0 && tmpPosColumna < this.matriz[0].length) {
                 listaCasillas.add(this.matriz[tmpPosFila][tmpPosColumna]);
             }
 
         }
         return listaCasillas;
     }
+
+    public void seleccionarCasilla(int posFila, int posColumna) {
+        if (this.matriz[posFila][posColumna].isMina()) {
+            List<Matriz> casillasConMinas = new LinkedList<>();
+            for (int i = 0; i < matriz.length; i++) {
+                for (int j = 0; j < matriz[i].length; j++) {
+                    if (matriz[i][j].isMina()) {
+                        casillasConMinas.add(matriz[i][j]);
+                    }
+                }
+            }
+            eventoPartidaPerdida.accept(casillasConMinas);
+        }
+    }
+
+
+
 
 
 
@@ -130,6 +171,11 @@ public class Tablero {
         System.out.println("////////////////////");
         tablero.printClue();
     }
+
+    public void setEventoPartidaPerdida(Consumer<List<Matriz>> eventoPartidaPerdida) {
+        this.eventoPartidaPerdida = eventoPartidaPerdida;
+    }
+
 }
 
 

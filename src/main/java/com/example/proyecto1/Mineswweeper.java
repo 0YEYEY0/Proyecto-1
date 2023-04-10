@@ -5,6 +5,8 @@ package com.example.proyecto1;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.function.Consumer;
 
 
 /**
@@ -19,13 +21,30 @@ public class Mineswweeper extends javax.swing.JFrame {
 
     JButton[][] botonesTablero;
 
+    Tablero tablero;
+
 
     /**
      *
      */
     public Mineswweeper() {
         cargarControles();
+        crearTablero();
 
+
+    }
+
+    private void crearTablero(){
+        tablero=new Tablero(numFilas, numColumnas, numMinas);
+        tablero.setEventoPartidaPerdida(new Consumer<List<Matriz>>() {
+            @Override
+            public void accept(List<Matriz> t) {
+                for(Matriz casillaConMina: t){
+                    botonesTablero[casillaConMina.getPosFila()][casillaConMina.getPosColumna()].setText("*");
+                }
+            }
+        });
+        tablero.printTablero();
 
     }
 
@@ -73,7 +92,7 @@ public class Mineswweeper extends javax.swing.JFrame {
         int posFila=Integer.parseInt(coordenada[0]);
         int posColumna=Integer.parseInt(coordenada[1]);
         JOptionPane.showMessageDialog(rootPane, posFila+","+posColumna);
-
+        tablero.seleccionarCasilla(posFila,posColumna);
 
     }
 
