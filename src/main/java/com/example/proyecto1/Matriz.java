@@ -4,7 +4,9 @@ public class Matriz {
     private int posFila;
     private int posColumna;
     private boolean mina;
-    int numMinasa;
+    private int numMinasa;
+
+    private boolean open;
 
 
     public Matriz(int posFila, int posColumna) {
@@ -48,6 +50,15 @@ public class Matriz {
     public void incNumMinasAround(){
         this.numMinasa++;
     }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
 
 
 

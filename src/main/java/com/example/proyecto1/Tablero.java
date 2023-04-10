@@ -17,6 +17,7 @@ public class Tablero {
     int numMinas;
 
     Consumer<List<Matriz>> eventoPartidaPerdida;
+    Consumer<Matriz> eventoCasillaOpen;
 
 
     public Tablero(int numFilas, int numColumnas, int numMinas) {
@@ -146,6 +147,7 @@ public class Tablero {
     }
 
     public void seleccionarCasilla(int posFila, int posColumna) {
+        eventoCasillaOpen.accept(this.matriz[posFila][posColumna]);
         if (this.matriz[posFila][posColumna].isMina()) {
             List<Matriz> casillasConMinas = new LinkedList<>();
             for (int i = 0; i < matriz.length; i++) {
@@ -156,6 +158,18 @@ public class Tablero {
                 }
             }
             eventoPartidaPerdida.accept(casillasConMinas);
+        } else if (this.matriz[posFila][posColumna].getNumMinasa() == 0) {
+            List<Matriz> casillasAlr = obtCasillasAlr(posFila, posColumna);
+            for (Matriz matriz : casillasAlr) {
+                if (!matriz.isOpen()){
+                    matriz.setOpen(true);
+                    seleccionarCasilla(matriz.getPosFila(), matriz.getPosColumna());
+                    if (matriz.getNumMinasa() == 0) {
+
+                    }
+
+                }
+            }
         }
     }
 
@@ -165,7 +179,9 @@ public class Tablero {
 
 
 
-    public static void main(String[] arg){
+
+
+    public static void main(String[] args) {
         Tablero tablero = new Tablero(8,8,7);
         tablero.printTablero();
         System.out.println("////////////////////");
@@ -175,6 +191,11 @@ public class Tablero {
     public void setEventoPartidaPerdida(Consumer<List<Matriz>> eventoPartidaPerdida) {
         this.eventoPartidaPerdida = eventoPartidaPerdida;
     }
+
+    public void setEventoCasillaOpen(Consumer<Matriz> eventoCasillaOpen) {
+        this.eventoCasillaOpen = eventoCasillaOpen;
+    }
+
 
 }
 

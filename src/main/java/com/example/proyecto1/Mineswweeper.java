@@ -3,6 +3,7 @@ package com.example.proyecto1;
 
 
 import javax.swing.*;
+import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -42,6 +43,14 @@ public class Mineswweeper extends javax.swing.JFrame {
                 for(Matriz casillaConMina: t){
                     botonesTablero[casillaConMina.getPosFila()][casillaConMina.getPosColumna()].setText("*");
                 }
+            }
+        });
+
+        tablero.setEventoCasillaOpen(new Consumer<Matriz>() {
+            @Override
+            public void accept(Matriz matriz) {
+                botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setEnabled(false);
+                botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setText(matriz.getNumMinasa()+"");
             }
         });
         tablero.printTablero();
