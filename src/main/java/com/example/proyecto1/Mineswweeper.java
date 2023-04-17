@@ -1,9 +1,7 @@
 package com.example.proyecto1;
 
 
-
 import javax.swing.*;
-import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -18,11 +16,15 @@ public class Mineswweeper extends javax.swing.JFrame {
 
     int numFilas = 8;
     int numColumnas = 8;
-    int numMinas = 10;
+    int numMinas = 1;
+
+
 
     JButton[][] botonesTablero;
 
     Tablero tablero;
+
+
 
 
     /**
@@ -31,18 +33,54 @@ public class Mineswweeper extends javax.swing.JFrame {
     public Mineswweeper() {
         cargarControles();
         crearTablero();
+        new Cronometro();
+
+
+
+
 
 
     }
 
+    public static void mensajego() {
+        JOptionPane.showMessageDialog(null,
+                "█▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀█ █░█ █▀▀ █▀█\n" +
+                        "█▄█ █▀█ █░▀░█ ██▄   █▄█ ▀▄▀ ██▄ █▀▄",
+                "PopUp Dialog",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void mensajecongra() {
+        JOptionPane.showMessageDialog(null,
+                "█▄█ █▀█ █░█   █░█░█ █ █▄░█\n" +
+                        "░█░ █▄█ █▄█   ▀▄▀▄▀ █ █░▀█",
+                "PopUp Dialog",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void crearTablero(){
         tablero=new Tablero(numFilas, numColumnas, numMinas);
+
+
+
         tablero.setEventoPartidaPerdida(new Consumer<List<Matriz>>() {
             @Override
             public void accept(List<Matriz> t) {
                 for(Matriz casillaConMina: t){
                     botonesTablero[casillaConMina.getPosFila()][casillaConMina.getPosColumna()].setText("*");
+
                 }
+                mensajego();
+            }
+        });
+
+        tablero.setEventoPartidawin(new Consumer<List<Matriz>>() {
+            @Override
+            public void accept(List<Matriz> t) {
+                for(Matriz casillaConMina: t){
+                    botonesTablero[casillaConMina.getPosFila()][casillaConMina.getPosColumna()].setText("x");
+                }
+                mensajecongra();
             }
         });
 
@@ -50,7 +88,7 @@ public class Mineswweeper extends javax.swing.JFrame {
             @Override
             public void accept(Matriz matriz) {
                 botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setEnabled(false);
-                botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setText(matriz.getNumMinasa()+"");
+                botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setText(matriz.getNumMinasa()==0?"":matriz.getNumMinasa()+"");
             }
         });
         tablero.printTablero();

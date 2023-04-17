@@ -16,6 +16,11 @@ public class Tablero {
     int numColumnas;
     int numMinas;
 
+    int botonAbierto;
+
+    boolean GameOver;
+
+    Consumer<List<Matriz>> eventoPartidawin;
     Consumer<List<Matriz>> eventoPartidaPerdida;
     Consumer<Matriz> eventoCasillaOpen;
 
@@ -25,6 +30,7 @@ public class Tablero {
         this.numColumnas = numColumnas;
         this.numMinas = numMinas;
         this.creaCasillas();
+        System.out.println(matriz[0][0]);
     }
 
     /**
@@ -38,6 +44,7 @@ public class Tablero {
             }
         }
         genMinas();
+
     }
 
     /**
@@ -62,11 +69,17 @@ public class Tablero {
     public void printTablero() {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
+
                 System.out.print(matriz[i][j].isMina() ? "*" : "0");
             }
             System.out.println("");
         }
     }
+
+
+
+
+
 
     /**
      * Metodo para imprimir las casillas que indican a que distancia hay minas
@@ -146,31 +159,62 @@ public class Tablero {
         return listaCasillas;
     }
 
-    public void seleccionarCasilla(int posFila, int posColumna) {
-        eventoCasillaOpen.accept(this.matriz[posFila][posColumna]);
-        if (this.matriz[posFila][posColumna].isMina()) {
-            List<Matriz> casillasConMinas = new LinkedList<>();
-            for (int i = 0; i < matriz.length; i++) {
-                for (int j = 0; j < matriz[i].length; j++) {
-                    if (matriz[i][j].isMina()) {
-                        casillasConMinas.add(matriz[i][j]);
-                    }
-                }
-            }
-            eventoPartidaPerdida.accept(casillasConMinas);
-        } else if (this.matriz[posFila][posColumna].getNumMinasa() == 0) {
-            List<Matriz> casillasAlr = obtCasillasAlr(posFila, posColumna);
-            for (Matriz matriz : casillasAlr) {
-                if (!matriz.isOpen()){
-                    matriz.setOpen(true);
-                    seleccionarCasilla(matriz.getPosFila(), matriz.getPosColumna());
-                    if (matriz.getNumMinasa() == 0) {
-
-                    }
-
+    List<Matriz> BotonesMinas() {
+        List<Matriz> BotonesMinas = new LinkedList<>();
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (matriz[i][j].isMina()) {
+                    BotonesMinas.add(matriz[i][j]);
                 }
             }
         }
+        return BotonesMinas;
+    }
+
+    public void seleccionarCasilla(int posFila, int posColumna) {
+        eventoCasillaOpen.accept(this.matriz[posFila][posColumna]);
+        if (this.matriz[posFila][posColumna].isMina()) {
+            eventoPartidaPerdida.accept(BotonesMinas());
+        }else if (this.matriz[posFila][posColumna].getNumMinasa()==0){
+            marcarCasillaAbierta(posFila, posColumna);
+            List<Matriz> casillasAlrededor=obtCasillasAlr(posFila, posColumna);
+            for(Matriz casilla: casillasAlrededor){
+                if (!casilla.isOpen()){
+                    seleccionarCasilla(casilla.getPosFila(), casilla.getPosColumna());
+                }
+            }
+        }else{
+            marcarCasillaAbierta(posFila, posColumna);
+        }
+        if (partidaGanada()){
+            eventoPartidawin.accept(BotonesMinas());
+        }
+    }
+
+    void marcarCasillaAbierta(int posFila, int posColumna){
+        if (!this.matriz[posFila][posColumna].isOpen()){
+            botonAbierto++;
+            this.matriz[posFila][posColumna].setOpen(true);
+        }
+    }
+
+    boolean partidaGanada(){
+        return botonAbierto>=(numFilas*numColumnas)-numMinas;
+    }
+
+
+
+
+    void marcarBotonAbierto(int posFila, int posColumna){
+        if (!this.matriz[posFila][posColumna].isOpen()){
+            botonAbierto++;
+            this.matriz[posFila][posColumna].setOpen(true);
+        }
+    }
+
+
+    boolean win(){
+        return botonAbierto>=(numFilas*numColumnas)-numMinas;
     }
 
 
@@ -195,6 +239,11 @@ public class Tablero {
     public void setEventoCasillaOpen(Consumer<Matriz> eventoCasillaOpen) {
         this.eventoCasillaOpen = eventoCasillaOpen;
     }
+
+    public void setEventoPartidawin(Consumer<List<Matriz>> eventoPartidaGanada) {
+        this.eventoPartidawin = eventoPartidaGanada;
+    }
+
 
 
 }
