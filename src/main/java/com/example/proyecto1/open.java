@@ -13,7 +13,7 @@ public class open {
                 JFrame frame1 = new Cronometro();
                 frame1.setSize(100,100);
                 frame1.setVisible(true);
-                frame.setSize(500, 500);
+                frame.setSize(300, 300);
                 frame.setVisible(true);
             }
         });

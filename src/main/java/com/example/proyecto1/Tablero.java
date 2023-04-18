@@ -3,6 +3,7 @@ package com.example.proyecto1;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 
 /**
@@ -18,7 +19,10 @@ public class Tablero {
 
     int botonAbierto;
 
-    boolean GameOver;
+    ListaSimple lista = new ListaSimple();
+
+
+
 
     Consumer<List<Matriz>> eventoPartidawin;
     Consumer<List<Matriz>> eventoPartidaPerdida;
@@ -30,7 +34,9 @@ public class Tablero {
         this.numColumnas = numColumnas;
         this.numMinas = numMinas;
         this.creaCasillas();
-        System.out.println(matriz[0][0]);
+
+
+
     }
 
     /**
@@ -41,6 +47,7 @@ public class Tablero {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
                 matriz[i][j] = new Matriz(i, j);
+
             }
         }
         genMinas();
@@ -158,6 +165,8 @@ public class Tablero {
         }
         return listaCasillas;
     }
+
+
 
     List<Matriz> BotonesMinas() {
         List<Matriz> BotonesMinas = new LinkedList<>();

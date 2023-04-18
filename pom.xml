@@ -74,6 +74,51 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.neoscada.protocols</groupId>
+            <artifactId>org.eclipse.scada.protocol.arduino</artifactId>
+            <version>0.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.devicemgt-plugins</groupId>
+            <artifactId>arduino-plugin-feature</artifactId>
+            <version>4.1.20</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rapplogic</groupId>
+            <artifactId>arduino-remote-uploader</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.aleksas</groupId>
+            <artifactId>arduino-simple-rpc</artifactId>
+            <version>1.0.24</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bortbort.arduino</groupId>
+            <artifactId>filo-firmata</artifactId>
+            <version>0.1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bortbort.arduino</groupId>
+            <artifactId>model-core</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.vorto</groupId>
+            <artifactId>hono-arduino</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.devicemgt-plugins</groupId>
+            <artifactId>arduino-plugin</artifactId>
+            <version>4.1.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.clojars.nakkaya</groupId>
+            <artifactId>arduino-firmata</artifactId>
+            <version>0.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -109,4 +154,11 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>clojars</id>
+            <name>Clojars</name>
+            <url>https://repo.clojars.org/</url>
+        </repository>
+    </repositories>
 </project>

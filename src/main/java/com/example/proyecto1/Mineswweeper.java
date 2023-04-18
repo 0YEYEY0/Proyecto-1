@@ -5,7 +5,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
+import java.util.random.RandomGenerator;
 
 
 /**
@@ -16,7 +18,15 @@ public class Mineswweeper extends javax.swing.JFrame {
 
     int numFilas = 8;
     int numColumnas = 8;
-    int numMinas = 1;
+    int numMinas = 10;
+    ListaSimple lista = new ListaSimple();
+
+    int contador = 0;
+
+    Random random = new Random();
+
+    int turno = random.nextInt();
+
 
 
 
@@ -34,13 +44,13 @@ public class Mineswweeper extends javax.swing.JFrame {
         cargarControles();
         crearTablero();
         new Cronometro();
-
-
-
-
+        lista.primerElemento();
+        dummy_level();
 
 
     }
+
+
 
     public static void mensajego() {
         JOptionPane.showMessageDialog(null,
@@ -90,8 +100,32 @@ public class Mineswweeper extends javax.swing.JFrame {
                 botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setEnabled(false);
                 botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setText(matriz.getNumMinasa()==0?"":matriz.getNumMinasa()+"");
             }
+
         });
         tablero.printTablero();
+        pistas();
+
+    }
+    private int dummy_level(){
+        if (turno%2 ==0) {
+            new Matriz(random.nextInt(7), random.nextInt(7)).isOpen();
+            return ++turno;
+        }else {
+            return ++turno;
+        }
+
+    }
+
+
+    private void pistas(){
+        if (contador%5==0) {
+            lista.primerElemento();
+            lista.eliminarPrimerElemento();
+        }else{
+            ++contador;
+        }
+
+
 
     }
 
@@ -108,9 +142,11 @@ public class Mineswweeper extends javax.swing.JFrame {
                 botonesTablero[i][j] = new JButton();
                 botonesTablero[i][j].setName(i + "," + j);
                 botonesTablero[i][j].setBorder(null);
+                lista.agregarElemento((int) (i+(0.1*j)));
                 if (i == 0 && j == 0) {
                     botonesTablero[i][j].setBounds(posXReferencia,
                             posYReferencia, anchoControl, altoControl);
+
 
                 }else if (i==0 && j!=0){
                 botonesTablero[i][j].setBounds(
@@ -138,7 +174,7 @@ public class Mineswweeper extends javax.swing.JFrame {
         String[] coordenada=btn.getName().split(",");
         int posFila=Integer.parseInt(coordenada[0]);
         int posColumna=Integer.parseInt(coordenada[1]);
-        JOptionPane.showMessageDialog(rootPane, posFila+","+posColumna);
+        //JOptionPane.showMessageDialog(rootPane, posFila+","+posColumna);
         tablero.seleccionarCasilla(posFila,posColumna);
 
     }
