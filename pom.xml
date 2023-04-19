@@ -109,6 +109,12 @@
             <artifactId>hono-arduino</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.kurbatov</groupId>
+            <artifactId>firmata4j</artifactId>
+            <version>2.3.8</version>
+        </dependency>
         <dependency>
             <groupId>org.wso2.carbon.devicemgt-plugins</groupId>
             <artifactId>arduino-plugin</artifactId>

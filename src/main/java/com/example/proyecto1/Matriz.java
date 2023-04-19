@@ -1,6 +1,12 @@
 package com.example.proyecto1;
 
+/**
+ * Clase matriz
+ */
 public class Matriz {
+    /**
+     * Instancias
+     */
     private int posFila;
     private int posColumna;
     private boolean mina;
@@ -8,12 +14,20 @@ public class Matriz {
 
     private boolean open;
 
-
+    /**
+     * Clase matriz
+     * @param posFila
+     * @param posColumna
+     */
     public Matriz(int posFila, int posColumna) {
         this.posFila = posFila;
         this.posColumna = posColumna;
     }
 
+    /**
+     * Sets y gets
+     * @return enteros y funciones
+     */
     public int getPosFila() {
         return posFila;
     }

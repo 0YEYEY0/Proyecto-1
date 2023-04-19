@@ -4,10 +4,24 @@ package com.example.proyecto1;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.random.RandomGenerator;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import org.firmata4j.IODevice;
+import org.firmata4j.IOEvent;
+
+import org.firmata4j.PinEventListener;
+import org.firmata4j.firmata.FirmataDevice;
+
+
 
 
 /**
@@ -16,16 +30,20 @@ import java.util.random.RandomGenerator;
  */
 public class Mineswweeper extends javax.swing.JFrame {
 
+
+
     int numFilas = 8;
     int numColumnas = 8;
     int numMinas = 10;
-    ListaSimple lista = new ListaSimple();
+    Lista lista = new Lista();
 
-    int contador = 0;
+    static int contador = 0;
 
-    Random random = new Random();
+    static Random random = new Random();
 
-    int turno = random.nextInt();
+    static int turno = random.nextInt();
+
+
 
 
 
@@ -46,9 +64,33 @@ public class Mineswweeper extends javax.swing.JFrame {
         new Cronometro();
         lista.primerElemento();
         dummy_level();
+        Bandera.main();
+        /**
+
+        try{
+            arduino.start();
+            arduino.ensureInitializationIsDone();
+            System.out.print("Iniciado");
+
+
+        } catch (Exception e) {
+            System.out.println("Error");
+
+        }
+
+        try{
+            var boton12 = arduino.getPin(12);
+            boton12.setMode(Pin.Mode.INPUT);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+         **/
 
 
     }
+
+
 
 
 
@@ -77,12 +119,33 @@ public class Mineswweeper extends javax.swing.JFrame {
             @Override
             public void accept(List<Matriz> t) {
                 for(Matriz casillaConMina: t){
+                    /**
+                    var buzzer = arduino.getPin(10);
+                    try {
+                        buzzer.setMode(Pin.Mode.OUTPUT);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                     **/
                     botonesTablero[casillaConMina.getPosFila()][casillaConMina.getPosColumna()].setText("*");
+                    /**
+                    try {
+                        buzzer.setValue(1);
+                        Thread.sleep(1000);
+                        buzzer.setValue(0);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                     **/
 
                 }
                 mensajego();
             }
         });
+
+
 
         tablero.setEventoPartidawin(new Consumer<List<Matriz>>() {
             @Override
@@ -97,13 +160,29 @@ public class Mineswweeper extends javax.swing.JFrame {
         tablero.setEventoCasillaOpen(new Consumer<Matriz>() {
             @Override
             public void accept(Matriz matriz) {
+
                 botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setEnabled(false);
                 botonesTablero[matriz.getPosFila()][matriz.getPosColumna()].setText(matriz.getNumMinasa()==0?"":matriz.getNumMinasa()+"");
+                /**
+                try {
+                    buzzer.setValue(1);
+                    Thread.sleep(300);
+                    buzzer.setValue(0);
+                    Thread.sleep(300);
+                    buzzer.setValue(1);
+                    buzzer.setValue(0);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                **/
             }
 
         });
         tablero.printTablero();
         pistas();
+
 
     }
     private int dummy_level(){
@@ -169,6 +248,7 @@ public class Mineswweeper extends javax.swing.JFrame {
         }
 
     }
+
     private void btnClick(ActionEvent e) {
         JButton btn=(JButton)e.getSource();
         String[] coordenada=btn.getName().split(",");
@@ -177,9 +257,15 @@ public class Mineswweeper extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(rootPane, posFila+","+posColumna);
         tablero.seleccionarCasilla(posFila,posColumna);
 
+        //arduino.getPin(12).addEventListener(tablero);
+
     }
 
-}
+
+
+
+    }
+
 
 
 

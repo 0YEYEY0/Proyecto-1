@@ -3,8 +3,9 @@ package com.example.proyecto1;
 import javax. swing.*;
 
 
-
-
+/**
+ * Abre el juego
+ */
 public class open {
     public static void main (String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

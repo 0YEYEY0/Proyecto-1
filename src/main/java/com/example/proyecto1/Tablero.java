@@ -1,6 +1,9 @@
 package com.example.proyecto1;
 
 
+import org.firmata4j.IOEvent;
+import org.firmata4j.PinEventListener;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +13,7 @@ import java.util.function.Consumer;
  *
  * @author 0YEYEY0
  */
-public class Tablero {
+public class Tablero  {
     Matriz[][] matriz;
 
     int numFilas;
@@ -19,7 +22,7 @@ public class Tablero {
 
     int botonAbierto;
 
-    ListaSimple lista = new ListaSimple();
+    Lista lista = new Lista();
 
 
 
@@ -27,6 +30,7 @@ public class Tablero {
     Consumer<List<Matriz>> eventoPartidawin;
     Consumer<List<Matriz>> eventoPartidaPerdida;
     Consumer<Matriz> eventoCasillaOpen;
+
 
 
     public Tablero(int numFilas, int numColumnas, int numMinas) {
@@ -167,7 +171,10 @@ public class Tablero {
     }
 
 
-
+    /**
+     * Clase botones minas
+     * @return Los botones que tienen minas
+     */
     List<Matriz> BotonesMinas() {
         List<Matriz> BotonesMinas = new LinkedList<>();
         for (int i = 0; i < matriz.length; i++) {
@@ -180,6 +187,11 @@ public class Tablero {
         return BotonesMinas;
     }
 
+    /**
+     * Se selecciona la casilla
+     * @param posFila
+     * @param posColumna
+     */
     public void seleccionarCasilla(int posFila, int posColumna) {
         eventoCasillaOpen.accept(this.matriz[posFila][posColumna]);
         if (this.matriz[posFila][posColumna].isMina()) {
@@ -200,6 +212,11 @@ public class Tablero {
         }
     }
 
+    /**
+     * Abre la casilla
+     * @param posFila
+     * @param posColumna
+     */
     void marcarCasillaAbierta(int posFila, int posColumna){
         if (!this.matriz[posFila][posColumna].isOpen()){
             botonAbierto++;
@@ -207,31 +224,26 @@ public class Tablero {
         }
     }
 
+    /**
+     *
+     * @return Mensaje de celebracion
+     */
     boolean partidaGanada(){
         return botonAbierto>=(numFilas*numColumnas)-numMinas;
     }
 
 
-
-
+    /**
+     * Marca los botones abiertos
+     * @param posFila
+     * @param posColumna
+     */
     void marcarBotonAbierto(int posFila, int posColumna){
         if (!this.matriz[posFila][posColumna].isOpen()){
             botonAbierto++;
             this.matriz[posFila][posColumna].setOpen(true);
         }
     }
-
-
-    boolean win(){
-        return botonAbierto>=(numFilas*numColumnas)-numMinas;
-    }
-
-
-
-
-
-
-
 
 
     public static void main(String[] args) {
@@ -241,6 +253,10 @@ public class Tablero {
         tablero.printClue();
     }
 
+    /**
+     * set de eventos
+     * @param eventoPartidaPerdida
+     */
     public void setEventoPartidaPerdida(Consumer<List<Matriz>> eventoPartidaPerdida) {
         this.eventoPartidaPerdida = eventoPartidaPerdida;
     }
